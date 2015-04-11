@@ -85,8 +85,9 @@ $(document).ready(function() {
  </script>
  </head>
 
-<body style='background:-moz-linear-gradient(-45deg, rgba(235,241,246,1) 0%, rgba(171,211,238,1) 50%, rgba(137,195,235,1) 51%, rgba(213,235,251,1) 100%);'>
+<body style='backgroun_disabled:-moz-linear-gradient(-45deg, rgba(235,241,246,1) 0%, rgba(171,211,238,1) 50%, rgba(137,195,235,1) 51%, rgba(213,235,251,1) 100%);'>
 	<h1>bubblechart.js</h1>
+	<h3><a href="https://github.com/hirak99/bubblechart.js">[Download from github]</a></h3>
 	<div id='myChartContainer' style="height: 480px;"></div>
 	<p></p>
 	<button id='btnShow'>Source code for above</button>
@@ -140,9 +141,16 @@ $(<span style="color: #007020">document</span>).ready(<span style="color: #00880
 	<h2>A javascript API to create animated bubblecharts</h2>
 	<h3>Features</h3>
 	<ul>
-	<li>Animations, tooltips, clicking taken care of automatically</li>
-	<li>Scale of the chart is computed dynamically</li>
-	<li>jQuery based</li>
+		<li>jQuery based</li>
+		<li>All batteries included</li>
+		<ul>
+			<li>Charting system built from scratch to support fast animations</li>
+			<li>Dynamically scales chart to accommodate changes</li>
+			<li>Built in support for tooltips</li>
+			<li>Tracks clicked bubbles (Ctrl+Click for more than one)</li>
+			<li>Can overlay over background images</li>
+		</ul>
+		<li>Includes UI to quickly load and play with data - see <a href="timeplot.html">timeplot demo</a></p>
 	</ul>
 	<h3>Short API</h3>
 	<p>Create bubblechart -</p>

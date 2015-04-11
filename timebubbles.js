@@ -186,7 +186,9 @@ function TimeBubbles(container,TimeData) {
 				else time=t;
 				var x=_this.getData(obj.bubble.category,time,varX);
 				var y=_this.getData(obj.bubble.category,time,varY);
-				[x,y]=bubbleChart.dataToPixel(x,y,0);
+				//[x,y]=bubbleChart.dataToPixel(x,y,0);
+			// Doing it the old way, till destructuring assignment is supported in Chrome
+			var _ref=bubbleChart.dataToPixel(x,y,0); x=_ref[0]; y=_ref[1];
 				if (first) ctx.moveTo(x,y);
 				else ctx.lineTo(x,y);
 				first=false;
