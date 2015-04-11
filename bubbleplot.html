@@ -9,7 +9,7 @@
 	<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
 		<style type="text/css">
 			/*demo page css*/
-			body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 50px;}
+			body{ font: 100% "Trebuchet MS", sans-serif; margin: 50px;}
 			.demoHeaders { margin-top: 2em; }
 			#dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
 			#dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
@@ -35,39 +35,125 @@ var csvstring = (<r><![CDATA[
 var myChart;
 
 function initChart() {
+	// Create the bubblechart in the div
 	myChart = new BubbleChart('#myChartContainer');
+	// Run the demo loop
 	demo();
-	//myChart.addBubble(10,1,10);
 }
 
-	var bub=[];
-	var firstTime=true;
-	function demo() {
-		var i=0;
-		while (bub.length<100) {
-			bub.push(myChart.addBubble(i*10,i*10,i*10,{tooltip: "Bubble "+i})); ++i;
-		}
-		var min=0, range=100000;
-		for (var i in bub) {
-			if (firstTime || i>bub.length/10)
-				bub[i].moveTo(Math.random()*range+min,Math.random()*range+min,Math.random()*100);
-		}
-		setTimeout(function(thisObj) {thisObj.demo();}, 5000, this);
-		if (firstTime) {myChart.doRecalc(); Animations.endAll();}
-		firstTime=false;
+var bub=[];
+var firstTime=true;
+function demo() {
+	// This will only run once, since the condition will fail after the bub.length is 100
+	while (bub.length<100) {
+		var i=bub.length;
+		// Add the bubbles in a straight line, and growing radius,
+		//   though it wouldn't matter since we will randomize even before the first update
+		bub.push(myChart.addBubble(i*10,i*10,i*10,{tooltip: "Bubble "+i})); ++i;
 	}
+	var min=0, range=100000;
+	for (var i in bub) {
+		// Leave alone the first 10 bubbles, for this demo.
+		if (firstTime || i>bub.length/10) {
+			// Move each bubble to a randomized location, also set a randomized radius.
+			// 	 Movements will be automatically animated.
+			bub[i].moveTo(Math.random()*range+min,Math.random()*range+min,Math.random()*100);
+		}
+	}
+	setTimeout(function(thisObj) {thisObj.demo();}, 5000, this);
+	if (firstTime) {
+		// If this is the first draw, do not animate
+		//   - force the end points to be calculated
+		myChart.doRecalc();
+		//   - and end all animations right now.
+		// Animations is a global general purpose animation object to orchastrate all animations.
+		Animations.endAll();
+	}
+	firstTime=false;
+}
 	
 
 $(document).ready(function() {
-		initChart();
- });
+	initChart();
+	$('#btnShow').click(function() {
+		var code=$('#demoSourceCode');
+		if (code.is(':visible')) code.hide('slow');
+		else code.show('slow');
+	});
+});
 
  </script>
  </head>
 
 <body style='background:-moz-linear-gradient(-45deg, rgba(235,241,246,1) 0%, rgba(171,211,238,1) 50%, rgba(137,195,235,1) 51%, rgba(213,235,251,1) 100%);'>
-	<h1>Chart</h1>
-	<div id='myChartContainer' style="height: 480px;"/>
+	<h1>bubblechart.js</h1>
+	<div id='myChartContainer' style="height: 480px;"></div>
+	<p></p>
+	<button id='btnShow'>Source code for above</button>
+	<p>Also see - <a href="timeplot.html">timeplot demo</a></p>
+
+	<!-- HTML generated using hilite.me --><div id="demoSourceCode" style="display: none; background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">var</span> myChart;
+
+<span style="color: #008800; font-weight: bold">function</span> initChart() {
+	<span style="color: #888888">// Create the bubblechart in the div</span>
+	myChart <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> BubbleChart(<span style="background-color: #fff0f0">&#39;#myChartContainer&#39;</span>);
+	<span style="color: #888888">// Run the demo loop</span>
+	demo();
+}
+
+<span style="color: #008800; font-weight: bold">var</span> bub<span style="color: #333333">=</span>[];
+<span style="color: #008800; font-weight: bold">var</span> firstTime<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">true</span>;
+<span style="color: #008800; font-weight: bold">function</span> demo() {
+	<span style="color: #888888">// This will only run once, since the condition will fail after the bub.length is 100</span>
+	<span style="color: #008800; font-weight: bold">while</span> (bub.length<span style="color: #333333">&lt;</span><span style="color: #0000DD; font-weight: bold">100</span>) {
+		<span style="color: #008800; font-weight: bold">var</span> i<span style="color: #333333">=</span>bub.length;
+		<span style="color: #888888">// Add the bubbles in a straight line, and growing radius,</span>
+		<span style="color: #888888">//   though it wouldn&#39;t matter since we will randomize even before the first update</span>
+		bub.push(myChart.addBubble(i<span style="color: #333333">*</span><span style="color: #0000DD; font-weight: bold">10</span>,i<span style="color: #333333">*</span><span style="color: #0000DD; font-weight: bold">10</span>,i<span style="color: #333333">*</span><span style="color: #0000DD; font-weight: bold">10</span>,{tooltip<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&quot;Bubble &quot;</span><span style="color: #333333">+</span>i})); <span style="color: #333333">++</span>i;
+	}
+	<span style="color: #008800; font-weight: bold">var</span> min<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">0</span>, range<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">100000</span>;
+	<span style="color: #008800; font-weight: bold">for</span> (<span style="color: #008800; font-weight: bold">var</span> i <span style="color: #008800; font-weight: bold">in</span> bub) {
+		<span style="color: #888888">// Leave alone the first 10 bubbles, for this demo.</span>
+		<span style="color: #008800; font-weight: bold">if</span> (firstTime <span style="color: #333333">||</span> i<span style="color: #333333">&gt;</span>bub.length<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">10</span>) {
+			<span style="color: #888888">// Move each bubble to a randomized location, also set a randomized radius.</span>
+			<span style="color: #888888">// 	 Movements will be automatically animated.</span>
+			bub[i].moveTo(<span style="color: #007020">Math</span>.random()<span style="color: #333333">*</span>range<span style="color: #333333">+</span>min,<span style="color: #007020">Math</span>.random()<span style="color: #333333">*</span>range<span style="color: #333333">+</span>min,<span style="color: #007020">Math</span>.random()<span style="color: #333333">*</span><span style="color: #0000DD; font-weight: bold">100</span>);
+		}
+	}
+	setTimeout(<span style="color: #008800; font-weight: bold">function</span>(thisObj) {thisObj.demo();}, <span style="color: #0000DD; font-weight: bold">5000</span>, <span style="color: #008800; font-weight: bold">this</span>);
+	<span style="color: #008800; font-weight: bold">if</span> (firstTime) {
+		<span style="color: #888888">// If this is the first draw, do not animate</span>
+		<span style="color: #888888">//   - force the end points to be calculated</span>
+		myChart.doRecalc();
+		<span style="color: #888888">//   - and end all animations right now.</span>
+		<span style="color: #888888">// Animations is a global general purpose animation object to orchastrate all animations.</span>
+		Animations.endAll();
+	}
+	firstTime<span style="color: #333333">=</span><span style="color: #008800; font-weight: bold">false</span>;
+}
+	
+
+$(<span style="color: #007020">document</span>).ready(<span style="color: #008800; font-weight: bold">function</span>() {
+	initChart();
+});
+</pre></div>
+	<h2>A javascript API to create animated bubblecharts</h2>
+	<h3>Features</h3>
+	<ul>
+	<li>Animations, tooltips, clicking taken care of automatically</li>
+	<li>Scale of the chart is computed dynamically</li>
+	<li>jQuery based</li>
+	</ul>
+	<h3>Short API</h3>
+	<p>Create bubblechart -</p>
+	<code>myChart = new BubbleChart('#myChartContainer',640,480);</code>
+	<p>Add bubbles -</p>
+	<code>bub1=myChart.addBubble(100,100,30);</code>
+	<code>bub2=myChart.addBubble(60,30,70,'green');</code>
+	<p>Move bubble -</p>
+	<code>bub1.moveTo(30,120);</code>
+	<p>Move bubble and change radius -</p>
+	<code>bub1.moveTo(30,120,100);</code>
 </body>
 
 </html>
