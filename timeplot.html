@@ -1,0 +1,99 @@
+<html>
+<head>
+	<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+<!--		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> -->
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript" src="jquery-ui.min.js"></script>
+		<script type="text/javascript" src="arn_utils.js"></script>
+		<script type="text/javascript" src="bubblechart.js"></script>
+		<script type="text/javascript" src="timebubbles.js"></script>
+		<style type="text/css">
+			/*demo page css*/
+			body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 50px;}
+			.demoHeaders { margin-top: 2em; }
+			#dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+			#dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+			ul#icons {margin: 0; padding: 0;}
+			ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
+			ul#icons span.ui-icon {float: left; margin: 0 4px;}
+		</style>
+<script type="text/javascript">
+/*
+var csvstring = (<r><![CDATA[  
+]]></r>).toString();
+*/
+
+/* need -
+	1. Dictionary values[group,time,variable]
+	2. Dictionary colors[biggroup]
+	3. Min time/Max time
+ */
+ 
+ function CData(csvdata) {
+	var Data={
+		vars: [],
+		times: [],
+		data: []
+	}
+	for (var j=2; j<csvdata[0].length; ++j)
+		Data.vars.push(csvdata[0][j]);
+	var cat1 = csvdata[1][0];
+	var lastCat=null;
+	var catdata;
+	var numcats=0;
+	for (var i=1; i<csvdata.length+1; ++i) {
+		var cat;
+		if (i>=csvdata.length || csvdata[i].length<=2) {
+			cat=null;
+		}
+		else cat=csvdata[i].splice(0,1)[0];
+		if (cat!=lastCat) {
+			if (lastCat!=null) Data.data.push(catdata);
+			catdata=[cat];
+			lastCat=cat;
+			numcats++;
+		}
+		if (cat==null) break;
+		var time = csvdata[i].splice(0,1)[0];
+		if (cat==cat1) Data.times.push(time);
+		for (var j in csvdata[i]) csvdata[i][j]=parseFloat(csvdata[i][j]);
+		csvdata[i].push(numcats);
+		catdata.push(csvdata[i]);
+	}
+	Data.vars.push('Category');
+	return Data;
+ }
+
+var myChart;
+
+function initChart(Data) {
+	myChart = new TimeBubbles('#chart',Data);
+	myChart.createSlider('#slider');
+	//$(function(){$('#slider').slider();});
+}
+
+$(document).ready(function() {
+	//$('body').append('<p class="temp">Loading...</p>');
+    $.ajax({ 
+        url: "data.csv",
+        type: "POST",
+        dataType: "text",
+        success: function(csvstring) {
+			//$('body').append('<p class="temp">Parsing...</p>');
+			var csvdata=ArnUtils.CSVToArray(csvstring);
+			//$('body').append('<p class="temp">Done.</p>');
+			initChart(CData(csvdata));
+			delete csvdata;
+        }
+    });
+ });
+
+ </script>
+ </head>
+
+<body style='background-image: -moz-linear-gradient(top,  #7dcdff 0%, #c2d5e1 50%); margin: 20px;'>
+	<div id='chart'  class="ui-widget-content" style="width: 800px; height: 400px;"></div>
+	<div id='slider'></div>
+</body>
+
+</html>

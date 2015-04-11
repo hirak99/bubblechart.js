@@ -1,0 +1,73 @@
+<html>
+<head>
+<!--		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> -->
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript" src="jquery-ui.min.js"></script>
+		<script type="text/javascript" src="arn_utils.js"></script>
+		<script type="text/javascript" src="bubblechart.js"></script>
+		<script type="text/javascript" src="timebubbles.js"></script>
+	<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" />
+		<style type="text/css">
+			/*demo page css*/
+			body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 50px;}
+			.demoHeaders { margin-top: 2em; }
+			#dialog_link {padding: .4em 1em .4em 20px;text-decoration: none;position: relative;}
+			#dialog_link span.ui-icon {margin: 0 5px 0 0;position: absolute;left: .2em;top: 50%;margin-top: -8px;}
+			ul#icons {margin: 0; padding: 0;}
+			ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
+			ul#icons span.ui-icon {float: left; margin: 0 4px;}
+		</style>
+<style type="text/css">
+
+</style>
+<script type="text/javascript">
+/*
+var csvstring = (<r><![CDATA[  
+]]></r>).toString();
+*/
+
+/* need -
+	1. Dictionary values[group,time,variable]
+	2. Dictionary colors[biggroup]
+	3. Min time/Max time
+ */
+ 
+var myChart;
+
+function initChart() {
+	myChart = new BubbleChart('#myChartContainer');
+	demo();
+	//myChart.addBubble(10,1,10);
+}
+
+	var bub=[];
+	var firstTime=true;
+	function demo() {
+		var i=0;
+		while (bub.length<100) {
+			bub.push(myChart.addBubble(i*10,i*10,i*10,{tooltip: "Bubble "+i})); ++i;
+		}
+		var min=0, range=100000;
+		for (var i in bub) {
+			if (firstTime || i>bub.length/10)
+				bub[i].moveTo(Math.random()*range+min,Math.random()*range+min,Math.random()*100);
+		}
+		setTimeout(function(thisObj) {thisObj.demo();}, 5000, this);
+		if (firstTime) {myChart.doRecalc(); Animations.endAll();}
+		firstTime=false;
+	}
+	
+
+$(document).ready(function() {
+		initChart();
+ });
+
+ </script>
+ </head>
+
+<body style='background:-moz-linear-gradient(-45deg, rgba(235,241,246,1) 0%, rgba(171,211,238,1) 50%, rgba(137,195,235,1) 51%, rgba(213,235,251,1) 100%);'>
+	<h1>Chart</h1>
+	<div id='myChartContainer' style="height: 480px;"/>
+</body>
+
+</html>

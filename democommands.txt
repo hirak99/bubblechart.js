@@ -1,0 +1,13 @@
+myChart = new BubbleChart('#myChartContainer',640,480);
+
+myChart.empty();
+
+bub0=myChart.addBubble(100,100,30)
+bub1=myChart.addBubble(30,40,10);
+bub2=myChart.addBubble(60,30,70,'green');
+
+bub1.moveTo(30,120);
+
+bub1.moveTo(40,120,100);
+
+bub0.moveTo(null,null,150);
