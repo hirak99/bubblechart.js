@@ -88,6 +88,11 @@ $(document).ready(function() {
     });
  });
 
+$(document).ready(function() {
+	setTimeout(function() {
+		$('#clickHere').hide('slow');
+	}, 5000);
+});
  </script>
  </head>
 
@@ -96,6 +101,15 @@ $(document).ready(function() {
 	<h3><a href="https://github.com/hirak99/bubblechart.js">[Download from github]</a></h3>
 	<div id='chart' class="ui-widget-content" style="font: 62.5%; width: 800px; height: 400px;"></div>
 	<div id='slider' style="font: 62.5%;"></div>
+<svg id='clickHere' height="40" width="500">
+    <marker id='head' orient='auto' markerWidth='2' markerHeight='4'
+            refX='0.1' refY='2'>
+      <path d='M0,0 V4 L2,2 Z' fill='red' />
+    </marker>
+	<line x2="35" y2="10" x1="35" y1="28" style="stroke:rgb(255,0,0);stroke-width:2" marker-end='url(#head)'/>
+	<line x1="35" y1="28" x2="100" y2="28" style="stroke:rgb(255,0,0);stroke-width:2" />
+	<text x="105" y="32" fill="red">Click here!</text>
+</svg> 
 	<h2>A javascript UI to display data over time</h2>
 	<h3>Features</h3>
 	<ul>
